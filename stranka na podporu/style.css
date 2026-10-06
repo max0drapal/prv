@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #a3cc75; /* Světle zelené pozadí podle obrázku */
+    color: #3d2b1f; /* Hnědo-tmavý text */
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+p.subtitle {
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    border: 1px solid #7a9c52;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    font-family: monospace;
+    resize: vertical;
+    outline: none;
+}
+
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #7a9c52;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    font-family: monospace;
+    outline: none;
+}
+
+textarea::placeholder, input::placeholder {
+    color: #5b684c;
+}
+
+button {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid #7a9c52;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #3d2b1f;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-bottom: 30px;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.response-box {
+    background-color: rgba(255, 255, 255, 0.25);
+    border: 1px solid #7a9c52;
+    padding: 20px;
+    width: 100%;
+    min-height: 80px;
+    font-size: 14px;
+    color: #4a573b;
+}
