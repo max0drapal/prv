@@ -1,5 +1,5 @@
 // Přepínač: zatím bez backendu
-const USE_BACKEND = false;
+const USE_BACKEND = true;
 
 // TADY si každý student nastaví svoje údaje (až bude backend):
 const BACKEND_URL = "https://prv-o927.onrender.com/chat";
