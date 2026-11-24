@@ -1,15 +1,20 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from openai import OpenAI
 
 app = Flask(__name__)
 
 # Pro školní projekt povolíme CORS všude (později se dá zpřísnit)
 CORS(app)
 
+client = OpenAI()
+
+
 @app.get("/")
 def home():
     return "VDF Support Backend is running"
+
 
 @app.post("/chat")
 def chat():
@@ -20,10 +25,16 @@ def chat():
     if not message:
         return jsonify({"error": "message is required"}), 400
 
-    # Zatím fake odpověď (fáze BACKEND)
-    reply = f"[DEMO] Přijal jsem dotaz od {student}: {message}"
+    try:
+        response = client.responses.create(
+            model="gpt-4o-mini",
+            input=f"Jsi technická podpora pro VDF Games. Odpovídej stručně a česky. Uživatel ({student}) píše: {message}",
+        )
+        reply = (response.output_text or "").strip() or "Nepodařilo se vygenerovat odpověď."
+        return jsonify({"reply": reply})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-    return jsonify({"reply": reply})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "8000"))
