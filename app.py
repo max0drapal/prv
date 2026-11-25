@@ -4,8 +4,6 @@ from flask_cors import CORS
 from openai import OpenAI
 
 app = Flask(__name__)
-
-# Pro školní projekt povolíme CORS všude (později se dá zpřísnit)
 CORS(app)
 
 client = OpenAI()
@@ -26,13 +24,23 @@ def chat():
         return jsonify({"error": "message is required"}), 400
 
     try:
-        response = client.responses.create(
+        completion = client.chat.completions.create(
             model="gpt-4o-mini",
-            input=f"Jsi technická podpora pro VDF Games. Odpovídej stručně a česky. Uživatel ({student}) píše: {message}",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Jsi technická podpora pro VDF Games. Odpovídej stručně a česky."
+                },
+                {
+                    "role": "user",
+                    "content": f"Uživatel ({student}) píše: {message}"
+                }
+            ]
         )
-        reply = (response.output_text or "").strip() or "Nepodařilo se vygenerovat odpověď."
+        reply = completion.choices[0].message.content.strip()
         return jsonify({"reply": reply})
     except Exception as e:
+        print("OPENAI ERROR:", e, flush=True)
         return jsonify({"error": str(e)}), 500
 
 
