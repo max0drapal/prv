@@ -1,12 +1,12 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from openai import OpenAI
+from google import genai
 
 app = Flask(__name__)
 CORS(app)
 
-client = OpenAI()
+client = genai.Client()
 
 
 @app.get("/")
@@ -24,23 +24,18 @@ def chat():
         return jsonify({"error": "message is required"}), 400
 
     try:
-        completion = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "Jsi technická podpora pro VDF Games. Odpovídej stručně a česky."
-                },
-                {
-                    "role": "user",
-                    "content": f"Uživatel ({student}) píše: {message}"
-                }
-            ]
+        prompt = (
+            f"Jsi technická podpora pro VDF Games. Odpovídej stručně, přátelsky a česky. "
+            f"Uživatel ({student}) píše: {message}"
         )
-        reply = completion.choices[0].message.content.strip()
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+        )
+        reply = (response.text or "").strip() or "Nepodařilo se vygenerovat odpověď."
         return jsonify({"reply": reply})
     except Exception as e:
-        print("OPENAI ERROR:", e, flush=True)
+        print("GEMINI ERROR:", e, flush=True)
         return jsonify({"error": str(e)}), 500
 
 
